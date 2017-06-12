@@ -1,0 +1,180 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../iron-icons/iron-icons.html">
+
+<!-- Paper -->
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../paper-tooltip/paper-tooltip.html">
+
+<!-- Third -->
+<link rel="import" href="../import-jquery/import-jquery.html">
+<link rel="import" href="../import-momentjs/import-momentjs.html">
+<link rel="import" href="../import-fullcalendar/import-fullcalendar.html">
+
+<link rel="import" href="../fullcalendar-calendar/behaviors/full-calendar-behavior.html">
+
+<link rel="import" href="fullcalendar-theme.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Events:
+    [
+      { title: 'Discover fullcalendar-calendar', start: moment() },
+      { title: 'Install fullcalendar-calendar', start: moment().add(2, 'day') },
+      { title: 'Play around with fullcalendar-calendar', start: moment().add(4, 'days'), end: moment().add(5, 'days') },
+      { title: 'Star fullcalendar-calendar on Github', start: moment().add(7, 'days'), end: moment().add(7, 'days').add(25, 'minutes') }
+    ]
+
+Example:
+
+    <ee-full-calendar></ee-full-calendar>
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="ee-fullcalendar">
+  <template>
+    <style include="fullcalendar-theme"></style>
+    <style is="custom-style" include="shared-styles">
+      :host {
+        /*width: 100% !important;*/
+        height: 100% !important;
+      }
+
+      #container {
+        max-width: 600px;
+        width: 100%;
+        color: #6d6c6c;
+      }
+
+      #actionFloat {
+        position: absolute;
+        z-index: +1;
+        opacity: 0;
+        -webkit-transition: opacity 0.5s ease-in-out;
+        -moz-transition: opacity 0.5s ease-in-out;
+        -ms-transition: opacity 0.5s ease-in-out;
+        -o-transition: opacity 0.5s ease-in-out;
+        transition: opacity 0.5s ease-out;
+      }
+
+      #actionFloat:hover {
+        opacity: 1 !important;
+      }
+
+    </style>
+
+    <div id="container">
+      <paper-tabs class="m" attr-for-selected="view" selected="{{selectedView}}">
+        <paper-tab view="month">Month</paper-tab>
+        <paper-tab view="agendaWeek">Week</paper-tab>
+        <paper-tab view="agendaDay">Day</paper-tab>
+      </paper-tabs>
+      <div id="calendarContainer">
+        <div id="calendar"></div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ee-fullcalendar',
+
+      behaviors: [
+        FullCalendarBehavior,
+      ],
+
+      properties: {
+        selectedView: {
+          type: String,
+          value: 'month',
+          notify: true,
+          observer: '_changeView'
+        },
+
+        defaultAvailable: {
+          type: Boolean,
+          value: true,
+          notify: true,
+        },
+
+        events: {
+          type: Array,
+          value: function() { return []; },
+        },
+      },
+
+      observers: [
+        '_applyCalendarOptions(events, defaultAvailable)'
+      ],
+
+      attached: function() {
+        this._applyCalendarOptions();
+      },
+
+      _changeView: function(view) {
+        this.async(function() {
+          this.changeView(view)
+        }.bind(this))
+      },
+
+      _applyCalendarOptions: function(events, defaultAvailable) {
+        this.set('options', {
+          selectable: true,
+          editable: true,
+          eventLimit: true, // allow "more" link when too many events
+          events: events,
+          eventColor: '#4fc3f7',
+
+          handleWindowResize: true,
+          defaultView: 'agendaWeek', // Only show week view
+          header: false, // Hide buttons/titles
+          minTime: '00:00:00', // Start time for the calendar
+          maxTime: '24:00:00', // End time for the calendar
+          columnFormat: {
+              week: 'ddd' // Only show day of the week names
+          },
+          displayEventTime: true, // Display event time
+
+          // dayRender: function (date, cell) {
+          //   var color = defaultAvailable ? '#72d572' : '#f46f5a'
+          //   cell.css('background-color', color);
+          // }
+        })
+      },
+
+      _dateSelected: function(event, detail) {
+        var range = { start: detail.start, end: detail.end };
+
+        var dateRange = {
+            start: detail.start.format('YYYY-MM-DD'),
+            end: detail.end.utc().subtract(1, 'seconds').format('YYYY-MM-DD')
+        }
+
+        var timeRange = {
+            start: detail.start.roundTo('minute', 30).format('h:mma'),
+            end: detail.end.roundTo('minute', 30).format('h:mma')
+        }
+
+        this.set('selectedDateRange', dateRange);
+        this.set('selectedTimeRange', timeRange);
+
+        this.fire('select-date', range);
+      },
+
+      unselect: function() {
+        this._calendar.fullCalendar('unselect');
+      },
+
+      insertEvent: function(eventData) {
+        this._calendar.fullCalendar('renderEvent', eventData, true); // stick? = true
+      },
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ee-fullcalendar demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../ee-fullcalendar.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic ee-fullcalendar demo</h3>
+      <demo-snippet>
+        <template>
+          <ee-fullcalendar></ee-fullcalendar>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+  <script type="text/javascript">
+
+    (function i() {
+      var cal = document.querySelector('ee-fullcalendar');
+
+
+
+    }())
+
+    document.addEventListener('WebComponentsReady', function () {
+      var cal = document.querySelector('ee-fullcalendar');
+
+      cal.addEventListener('select', function (e) {
+        console.log(e);
+      });
+
+      cal.addEventListener('event-click', function (e) {
+        console.log(e.detail.event);
+      });
+
+      // 
+
+      var visit1 = {'start': '2016-03-03T16:00:00', 'id': 1}
+      var visit2 = {'start': '2016-03-03T14:00:00', 'id': 2}
+      var visit3 = {'start': '2016-03-03T06:00:00', 'id': 3}
+
+      var events = [
+
+          { title: 'Peter fox',
+            start: moment(),
+            end: moment().add(2, 'hours'),
+            allDay : false,
+            visit: visit1,
+            editable: false,
+            color: '#C2185B'
+
+          },
+
+          { title: 'Foxy fox',
+            start: moment(),
+            end: moment().add(3, 'hours'),
+            allDay : false,
+            visit: visit2,
+            editable: false,
+
+          },
+
+          { title: 'Jamie Oliver', start: moment().add(2, 'day'), visit: visit3, color: '#F44336' },
+          { title: 'Rosane Muilig', start: moment().add(4, 'days'), end: moment().add(5, 'days'), visit: visit2, },
+          { title: 'Star fullcalendar-calendar on Github', start: moment().add(7, 'days'), end: moment().add(7, 'days').add(25, 'minutes'), visit: visit3, }
+        ]
+
+        cal.events = events;
+
+    });
+  </script>
+</html>
