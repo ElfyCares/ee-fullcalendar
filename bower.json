@@ -7,7 +7,7 @@
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
     "fullcalendar-calendar": "^1.1.2",
     "import-momentjs": "^1.0.0",
-    "import-jquery"
+    "import-jquery": "*"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
