@@ -11,9 +11,13 @@
 <link rel="import" href="../paper-tooltip/paper-tooltip.html">
 
 <!-- Third -->
-<link rel="import" href="../import-jquery/import-jquery.html">
+<!-- <link rel="import" href="../import-jquery/import-jquery.html">
 <link rel="import" href="../import-momentjs/import-momentjs.html">
-<link rel="import" href="../import-fullcalendar/import-fullcalendar.html">
+<link rel="import" href="../import-fullcalendar/import-fullcalendar.html"> -->
+
+<script src="../jquery/dist/jquery.min.js"></script>
+<script src="../moment/min/moment.min.js"></script>
+<script src="../fullcalendar/dist/fullcalendar.min.js"></script>
 
 <link rel="import" href="../fullcalendar-calendar/behaviors/full-calendar-behavior.html">
 
@@ -68,6 +72,11 @@ Example:
         opacity: 1 !important;
       }
 
+      #calendarContainer {
+        padding: 6px 32px 6px 6px;
+        @apply(--ee-fullcalendar-container);
+      }
+
     </style>
 
     <div id="container">
@@ -81,7 +90,7 @@ Example:
       </div>
     </div>
   </template>
-
+ 
   <script>
     Polymer({
       is: 'ee-fullcalendar',
@@ -93,7 +102,7 @@ Example:
       properties: {
         selectedView: {
           type: String,
-          value: 'month',
+          value: 'agendaWeek',
           notify: true,
           observer: '_changeView'
         },
@@ -115,7 +124,9 @@ Example:
       ],
 
       attached: function() {
-        this._applyCalendarOptions();
+        this.async(function() {
+          this._applyCalendarOptions();
+        }.bind(this),1);
       },
 
       _changeView: function(view) {
