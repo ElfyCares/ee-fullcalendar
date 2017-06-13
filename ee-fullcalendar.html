@@ -83,20 +83,14 @@ Example:
           observer: '_changeView'
         },
 
-        defaultAvailable: {
-          type: Boolean,
-          value: true,
-          notify: true,
-        },
-
-        events: {
+        entries: {
           type: Array,
           value: function() { return []; },
         },
       },
 
       observers: [
-        '_applyCalendarOptions(events, defaultAvailable)'
+        '_applyCalendarOptions(entries.*)'
       ],
 
       attached: function() {
@@ -111,12 +105,12 @@ Example:
         }.bind(this))
       },
 
-      _applyCalendarOptions: function(events, defaultAvailable) {
+      _applyCalendarOptions: function() {
         this.set('options', {
           selectable: true,
           editable: true,
           eventLimit: true, // allow "more" link when too many events
-          events: events,
+          events: this.entries,
           eventColor: '#4fc3f7',
 
           handleWindowResize: true,
