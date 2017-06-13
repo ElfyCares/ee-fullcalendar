@@ -1,26 +1,17 @@
 <link rel="import" href="../polymer/polymer.html">
 
+<!-- Iron -->
 <link rel="import" href="../iron-icons/iron-icons.html">
 
 <!-- Paper -->
-<link rel="import" href="../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../paper-item/paper-item.html">
-<link rel="import" href="../paper-menu/paper-menu.html">
-<link rel="import" href="../paper-menu-button/paper-menu-button.html">
-<link rel="import" href="../paper-tabs/paper-tabs.html">
-<link rel="import" href="../paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../paper-radio-group/paper-radio-group.html">
 
 <!-- Third -->
-<!-- <link rel="import" href="../import-jquery/import-jquery.html">
+<link rel="import" href="../import-jquery/import-jquery.html">
 <link rel="import" href="../import-momentjs/import-momentjs.html">
-<link rel="import" href="../import-fullcalendar/import-fullcalendar.html"> -->
-
-<script src="../jquery/dist/jquery.min.js"></script>
-<script src="../moment/min/moment.min.js"></script>
-<script src="../fullcalendar/dist/fullcalendar.min.js"></script>
+<link rel="import" href="../import-fullcalendar/import-fullcalendar.html">
 
 <link rel="import" href="../fullcalendar-calendar/behaviors/full-calendar-behavior.html">
-
 <link rel="import" href="fullcalendar-theme.html">
 
 <!--
@@ -47,29 +38,13 @@ Example:
     <style include="fullcalendar-theme"></style>
     <style is="custom-style" include="shared-styles">
       :host {
-        /*width: 100% !important;*/
-        height: 100% !important;
+
       }
 
       #container {
-        max-width: 600px;
-        width: 100%;
+        max-width: 100vh;
         color: #6d6c6c;
-      }
-
-      #actionFloat {
-        position: absolute;
-        z-index: +1;
-        opacity: 0;
-        -webkit-transition: opacity 0.5s ease-in-out;
-        -moz-transition: opacity 0.5s ease-in-out;
-        -ms-transition: opacity 0.5s ease-in-out;
-        -o-transition: opacity 0.5s ease-in-out;
-        transition: opacity 0.5s ease-out;
-      }
-
-      #actionFloat:hover {
-        opacity: 1 !important;
+        text-align: center;
       }
 
       #calendarContainer {
@@ -80,15 +55,16 @@ Example:
     </style>
 
     <div id="container">
-      <paper-tabs class="m" attr-for-selected="view" selected="{{selectedView}}">
-        <paper-tab view="month">Month</paper-tab>
-        <paper-tab view="agendaWeek">Week</paper-tab>
-        <paper-tab view="agendaDay">Day</paper-tab>
-      </paper-tabs>
+      <paper-radio-group attr-for-selected="view" selected="{{selectedView}}">
+        <paper-radio-button view="month">Month</paper-radio-button>
+        <paper-radio-button view="agendaWeek">Week</paper-radio-button>
+        <paper-radio-button view="agendaDay">Day</paper-radio-button>
+      </paper-radio-group>
       <div id="calendarContainer">
         <div id="calendar"></div>
       </div>
     </div>
+
   </template>
  
   <script>
