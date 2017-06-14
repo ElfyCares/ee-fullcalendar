@@ -87,10 +87,15 @@ Example:
           type: Array,
           value: function() { return []; },
         },
+
+        entriesUrl : {
+          type: Object,
+          value: function() { return ENV && ENV.API_URL ? ENV.API_URL + 'events/' : undefined }
+        }
       },
 
       observers: [
-        '_applyCalendarOptions(entries.*)'
+        '_applyCalendarOptions(entries.*, entriesUrl.*)'
       ],
 
       attached: function() {
@@ -126,6 +131,14 @@ Example:
           //   var color = defaultAvailable ? '#72d572' : '#f46f5a'
           //   cell.css('background-color', color);
           // }
+
+          eventSources: [
+              {
+                  url: this.entriesUrl, // use the `url` property
+                  color: 'yellow',    // an option!
+                  textColor: 'black'  // an option!
+              }
+          ]
         })
       },
 
