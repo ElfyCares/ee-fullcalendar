@@ -83,6 +83,11 @@ Example:
           observer: '_changeView'
         },
 
+        careRecipient: {
+          type: Object,
+          value: function() { return {} },
+        },
+
         entries: {
           type: Array,
           value: function() { return []; },
@@ -100,7 +105,7 @@ Example:
       },
 
       observers: [
-        '_applyCalendarOptions(entries.*, entriesUrl.*)'
+        '_applyCalendarOptions(entries.*, entriesUrl.*, careRecipient.id)'
       ],
 
       attached: function() {
@@ -141,6 +146,9 @@ Example:
               {
                   url: this.entriesUrl, // use the `url` property
                   headers: this.entriesHeader,
+                  data: {
+                      care_recipient_id: this.careRecipient.id,
+                  },
                   color: 'yellow',    // an option!
                   textColor: 'black'  // an option!
               }
